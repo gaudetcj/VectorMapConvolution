@@ -1,0 +1,97 @@
+\documentclass[14pt,a4paper]{article}
+\setlength\parindent{0pt}
+\setlength{\parskip}{1em}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+%\usepackage[toc,page]{appendix}
+
+\begin{document}
+\title{Vector Map Convolution}
+\author{Chase J Gaudet \\  cjg7182@louisiana.edu
+   \and Anthony S Maida \\  maida@louisiana.edu}
+\maketitle
+
+\begin{abstract}
+abstract
+\end{abstract}
+
+\section{Introduction}
+
+
+\section{Motivation and Related Work}
+
+
+\section{Vector Map Convolution}
+Vector map convolutions use a similar convolution to that of complex [cite complex] and quaternion [cite quat] convolutions, but in a more general way that does not bind it to a hyper-complex algebra.
+In both complex and quaternion convolution the input to the convolution layer and the kernels of the convolution layer both have multiple axes, two for complex (real and imaginary) and four for quaternion (real and three imaginary: i, j, k).
+They also both produce feature maps of the same number of axes, which can be thought of as feature vectors.
+The convolution operation for both the complex and quaternion can be seen in Figures \ref{f:complexconv} and \ref{f:quatconv}.
+One can see that each axis of the resultant feature vector is actually a linear combination of different input axis convolved against different kernel axis.
+This also causes these convolution operations to have a sort of weight sharing and makes them have a lower parameter count versus a real-valued network with the same number of convolution kernels.
+
+Building on the idea of linearly combining, vector map convolutions can take a user defined number of axes $\bold{D_{vm}}$.
+The axes are permuted one to the right for each axis beyond the first to obtain the rows of the convolution matrix
+Also instead of a linear combination a learned weight is used instead.
+This weight is defined as a matrix $\textbf{L} \in \mathbb{R}^{\bold{D_{vm}}x\bold{D_{vm}}}$.
+As an example let us look at quaternion convolution in matrix form and then vector map convolution with four axes in matrix form.
+Quaternion is given by convolving a quaternion filter matrix $\textbf{W}=\textbf{A}+\textit{i}\textbf{B}+\textit{j}\textbf{C}+\textit{k}\textbf{D}$ by a quaternion vector $\textbf{h}=\textbf{w}+\textit{i}\textbf{x}+\textit{j}\textbf{y}+\textit{k}\textbf{z}$:
+\begin{equation}
+\begin{bmatrix}
+ \mathscr{R}(\textbf{W}\ast \textbf{h}) \\ 
+ \mathscr{I}(\textbf{W}\ast \textbf{h}) \\
+ \mathscr{J}(\textbf{W}\ast \textbf{h}) \\
+ \mathscr{K}(\textbf{W}\ast \textbf{h}) 
+\end{bmatrix}
+=
+\begin{bmatrix}
+ \textbf{A} & -\textbf{B} & -\textbf{C} & -\textbf{D} \\
+ \textbf{B} & \textbf{A} & -\textbf{D} & \textbf{C} \\
+ \textbf{C} & \textbf{D} & \textbf{A} & -\textbf{B} \\
+ \textbf{D} & -\textbf{C} & \textbf{B} & \textbf{A} \\
+\end{bmatrix}
+\ast
+\begin{bmatrix}
+ \textbf{w} \\ 
+ \textbf{x} \\
+ \textbf{y} \\
+ \textbf{z}
+\end{bmatrix}
+\label{eq:quatconv}
+\end{equation}
+The vector map convolution, $\bold{D_{vm}} = 4$ and $\textbf{L}$ is a $4\times4$ matrix, would be given by:
+\begin{equation}
+\begin{bmatrix}
+ \mathscr{R}(\textbf{W}\ast \textbf{h}) \\ 
+ \mathscr{I}(\textbf{W}\ast \textbf{h}) \\
+ \mathscr{J}(\textbf{W}\ast \textbf{h}) \\
+ \mathscr{K}(\textbf{W}\ast \textbf{h}) 
+\end{bmatrix}
+=
+\begin{bmatrix}
+ \textbf{A}\textbf{L$_{1,1}$} & \textbf{B}\textbf{L$_{1,2}$} & \textbf{C}\textbf{L$_{1,3}$} & \textbf{D}\textbf{L$_{1,4}$} \\
+ \textbf{D}\textbf{L$_{2,1}$} & \textbf{A}\textbf{L$_{2,2}$} & \textbf{B}\textbf{L$_{2,3}$} & \textbf{C}\textbf{L$_{2,4}$} \\
+ \textbf{C}\textbf{L$_{3,1}$} & \textbf{D}\textbf{L$_{3,2}$} & \textbf{A}\textbf{L$_{3,3}$} & \textbf{B}\textbf{L$_{3,4}$} \\
+ \textbf{B}\textbf{L$_{4,1}$} & \textbf{D}\textbf{L$_{4,2}$} & \textbf{C}\textbf{L$_{4,3}$} & \textbf{A}\textbf{L$_{4,4}$} \\
+\end{bmatrix}
+\ast
+\begin{bmatrix}
+ \textbf{w} \\ 
+ \textbf{x} \\
+ \textbf{y} \\
+ \textbf{z}
+\end{bmatrix}
+\label{eq:quatconv}
+\end{equation}
+
+
+\section{Experiments}
+
+
+\section{Conclusions}
+
+
+\end{document}
