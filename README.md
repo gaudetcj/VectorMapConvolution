@@ -3,6 +3,7 @@ Paper and code for Vector Map Convolutions
 
 ## Install (Ubuntu)
 Clone repo and cd to src
+
 Run the install.sh script which installs python 3.7, creates a venv in the main directory, and installs packages.
 
 ## Run Experiments (Ubuntu)
