@@ -1,0 +1,8 @@
+*.gz
+*.json
+*cifar*
+*.zip
+*.pdf
+*.pyc
+*.t7
+*.pth

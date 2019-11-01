@@ -1,0 +1,126 @@
+\begin{thebibliography}{10}
+
+\bibitem{aizenberg2018image}
+Igor Aizenberg and Alexander Gonzalez.
+\newblock Image recognition using mlmvn and frequency domain features.
+\newblock In {\em 2018 International Joint Conference on Neural Networks
+  (IJCNN)}, pages 1--8. IEEE, 2018.
+
+\bibitem{bayro2018geometric}
+Eduardo Bayro-Corrochano, Luis Lechuga-Guti{\'e}rrez, and Marcela Garza-Burgos.
+\newblock Geometric techniques for robotics and hmi: Interpolation and haptics
+  in conformal geometric algebra and control using quaternion spike neural
+  networks.
+\newblock {\em Robotics and Autonomous Systems}, 104:72--84, 2018.
+
+\bibitem{Gaudet2018}
+Chase~J. Gaudet and Anthony~S. Maida.
+\newblock Deep quatertion networks.
+\newblock In {\em 2018 International Joint Conference on Neural Networks
+  (IJCNN)}, 2018.
+
+\bibitem{glorot2010understanding}
+Xavier Glorot and Yoshua Bengio.
+\newblock Understanding the difficulty of training deep feedforward neural
+  networks.
+\newblock In {\em Proceedings of the Thirteenth International Conference on
+  Artificial Intelligence and Statistics}, pages 249--256, 2010.
+
+\bibitem{he2015deep}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Deep residual learning for image recognition.
+\newblock {\em arXiv preprint arXiv:1512.03385}, 2015.
+
+\bibitem{he2015delving}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Delving deep into rectifiers: Surpassing human-level performance on
+  imagenet classification.
+\newblock In {\em Proceedings of the IEEE international conference on computer
+  vision}, pages 1026--1034, 2015.
+
+\bibitem{isokawa2003quaternion}
+Teijiro Isokawa, Tomoaki Kusakabe, Nobuyuki Matsui, and Ferdinand Peper.
+\newblock Quaternion neural network and its application.
+\newblock In {\em International conference on knowledge-based and intelligent
+  information and engineering systems}, pages 318--324. Springer, 2003.
+
+\bibitem{krizhevsky2009learning}
+Alex Krizhevsky and Geoffrey Hinton.
+\newblock Learning multiple layers of features from tiny images.
+\newblock 2009.
+
+\bibitem{kusamichi2004new}
+Hiromi Kusamichi, Teijiro Isokawa, Nobuyuki Matsui, Yuzo Ogawa, and Kazuaki
+  Maeda.
+\newblock A new scheme for color night vision by quaternion neural network.
+\newblock In {\em Proceedings of the 2nd International Conference on Autonomous
+  Robots and Agents}, volume 1315. Citeseer, 2004.
+
+\bibitem{matsui2004quaternion}
+Nobuyuki Matsui, Teijiro Isokawa, Hiromi Kusamichi, Ferdinand Peper, and
+  Haruhiko Nishimura.
+\newblock Quaternion neural network with geometrical operators.
+\newblock {\em Journal of Intelligent \& Fuzzy Systems}, 15(3, 4):149--164,
+  2004.
+
+\bibitem{parcollet2017deep}
+Titouan Parcollet, Mohamed Morchid, and Georges Linares.
+\newblock Deep quaternion neural networks for spoken language understanding.
+\newblock In {\em 2017 IEEE Automatic Speech Recognition and Understanding
+  Workshop (ASRU)}, pages 504--511. IEEE, 2017.
+
+\bibitem{parcollet2017quaternion}
+Titouan Parcollet, Mohamed Morchid, and Georges Linares.
+\newblock Quaternion denoising encoder-decoder for theme identification of
+  telephone conversations.
+\newblock 2017.
+
+\bibitem{parcollet2019quaternion}
+Titouan Parcollet, Mohamed Morchid, and Georges Linar{\`e}s.
+\newblock Quaternion convolutional neural networks for heterogeneous image
+  processing.
+\newblock In {\em ICASSP 2019-2019 IEEE International Conference on Acoustics,
+  Speech and Signal Processing (ICASSP)}, pages 8514--8518. IEEE, 2019.
+
+\bibitem{parcollet2018quaternion-A}
+Titouan Parcollet, Mirco Ravanelli, Mohamed Morchid, Georges Linar{\`e}s,
+  Chiheb Trabelsi, Renato De~Mori, and Yoshua Bengio.
+\newblock Quaternion recurrent neural networks.
+\newblock {\em arXiv preprint arXiv:1806.04418}, 2018.
+
+\bibitem{parcollet2018quaternion-B}
+Titouan Parcollet, Ying Zhang, Mohamed Morchid, Chiheb Trabelsi, Georges
+  Linar{\`e}s, Renato De~Mori, and Yoshua Bengio.
+\newblock Quaternion convolutional neural networks for end-to-end automatic
+  speech recognition.
+\newblock {\em arXiv preprint arXiv:1806.07789}, 2018.
+
+\bibitem{pavllo2018quaternet}
+Dario Pavllo, David Grangier, and Michael Auli.
+\newblock Quaternet: A quaternion-based recurrent model for human motion.
+\newblock {\em arXiv preprint arXiv:1805.06485}, 2018.
+
+\bibitem{takahashi2017remarks}
+Kazuhiko Takahashi, Ayana Isaka, Tomoki Fudaba, and Masafumi Hashimoto.
+\newblock Remarks on quaternion neural network-based controller trained by
+  feedback error learning.
+\newblock In {\em 2017 IEEE/SICE International Symposium on System Integration
+  (SII)}, pages 875--880. IEEE, 2017.
+
+\bibitem{tokuda2003trajectory}
+Keiichi Tokuda, Heiga Zen, and Tadashi Kitamura.
+\newblock Trajectory modeling based on hmms with the explicit relationship
+  between static and dynamic features.
+\newblock In {\em Eighth European Conference on Speech Communication and
+  Technology}, 2003.
+
+\bibitem{trabelsi+al-2018-complexconv}
+Chiheb Trabelsi, Olexa Bilaniuk, Ying Zhang, Dmitriy Serdyuk, Sandeep
+  Subramanian, Jo{\~{a}}o~Felipe Santos, Soroush Mehri, Negar Rostamzadeh,
+  Yoshua Bengio, and Christopher Pal.
+\newblock Deep complex networks.
+\newblock In {\em International Conference on Learning Representations 2018
+  (Conference Track)}, 2018.
+\newblock arxiv:1705.09792.
+
+\end{thebibliography}
