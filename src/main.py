@@ -52,8 +52,10 @@ transform_test = transforms.Compose([
 
 if args.dataset == 'cifar10':
     pytorch_dataset_class = torchvision.datasets.CIFAR10
+    num_classes = 10
 elif args.dataset == 'cifar100':
     pytorch_dataset_class = torchvision.datasets.CIFAR100
+    num_classes = 100
 else:
     raise ValueError('Unrecognized dataset name...')
 
@@ -67,15 +69,15 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=args.batch, shuffle
 # Model
 print('==> Building model..')
 model_dict = {
-    'real18': resnet_standard.ResNet18(),
-    'quat18': resnet_quaternion.ResNet18(),
-    'vect18': resnet_vectormap.ResNet18(),
-    'real34': resnet_standard.ResNet34(),
-    'quat34': resnet_quaternion.ResNet34(),
-    'vect34': resnet_vectormap.ResNet34(),
-    'real50': resnet_standard.ResNet50(),
-    'quat50': resnet_quaternion.ResNet50(),
-    'vect50': resnet_vectormap.ResNet50(),
+    'real18': resnet_standard.ResNet18(num_classes),
+    'quat18': resnet_quaternion.ResNet18(num_classes),
+    'vect18': resnet_vectormap.ResNet18(num_classes),
+    'real34': resnet_standard.ResNet34(num_classes),
+    'quat34': resnet_quaternion.ResNet34(num_classes),
+    'vect34': resnet_vectormap.ResNet34(num_classes),
+    'real50': resnet_standard.ResNet50(num_classes),
+    'quat50': resnet_quaternion.ResNet50(num_classes),
+    'vect50': resnet_vectormap.ResNet50(num_classes),
 }
 
 net = model_dict.get(args.type, 'None')
