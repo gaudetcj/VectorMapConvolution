@@ -81,10 +81,14 @@ model_dict = {
 }
 
 net = model_dict.get(args.type, 'None')
-if net is None:
+if net is 'None':
     raise ValueError('Please choose network type in model_dict.')
 
 net = net.to(device)
+print('-'*50)
+print('Param count:')
+print(sum(p.numel() for p in net.parameters() if p.requires_grad))
+print('-'*50)
 
 if args.resume:
     # Load checkpoint.
