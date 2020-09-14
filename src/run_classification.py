@@ -16,7 +16,7 @@ import argparse
 import csv
 import numpy as np
 
-from models import resnet_standard, resnet_quaternion, resnet_vectormap
+from experiments.classification.models import resnet_standard, resnet_quaternion, resnet_vectormap
 from models.optim.adamw import AdamW
 from models.optim.cyclic_sched import CyclicLRWithRestarts
 from utils import progress_bar
@@ -59,11 +59,11 @@ elif args.dataset == 'cifar100':
 else:
     raise ValueError('Unrecognized dataset name...')
 
-trainset = pytorch_dataset_class(root='../data', train=True, download=True, transform=transform_train)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=args.batch, shuffle=True)
+trainset = pytorch_dataset_class(root='./data', train=True, download=True, transform=transform_train)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=args.batch, shuffle=True, drop_last=True)
 
-testset = pytorch_dataset_class(root='../data', train=False, download=True, transform=transform_test)
-testloader = torch.utils.data.DataLoader(testset, batch_size=args.batch, shuffle=False)
+testset = pytorch_dataset_class(root='./data', train=False, download=True, transform=transform_test)
+testloader = torch.utils.data.DataLoader(testset, batch_size=args.batch, shuffle=False, drop_last=True)
 
 
 # Model
@@ -81,7 +81,7 @@ model_dict = {
 }
 
 net = model_dict.get(args.type, 'None')
-if net is 'None':
+if net == 'None':
     raise ValueError('Please choose network type in model_dict.')
 
 net = net.to(device)
@@ -175,15 +175,16 @@ def test(epoch):
     return [test_loss/(batch_idx+1), 100.*correct/total]
 
 
-#model_parameters = filter(lambda p: p.requires_grad, net.parameters())
-#param_count = sum([np.prod(p.size()) for p in model_parameters])
+model_parameters = filter(lambda p: p.requires_grad, net.parameters())
+param_count = sum([np.prod(p.size()) for p in model_parameters])
+print('Param count: {}'.format(param_count))
 test_stats = []
-for epoch in range(start_epoch, start_epoch+args.epochs):
-    train(epoch)
-    test_stats.append(test(epoch))
+# for epoch in range(start_epoch, start_epoch+args.epochs):
+#     train(epoch)
+#     test_stats.append(test(epoch))
 
-with open("../results/results_{}_{}.csv".format(args.dataset, args.type), "w") as f:
-    wr = csv.writer(f)
-    wr.writerows(test_stats)
+# with open("./results/results_{}_{}.csv".format(args.dataset, args.type), "w") as f:
+#     wr = csv.writer(f)
+#     wr.writerows(test_stats)
 
 #torch.save(net, 'D:/Projects/VectorMapConvolution1/models/resnet18.pth')

@@ -36,7 +36,34 @@ def vectormap_conv(input, v_weight, c_weight, bias, stride,
     return convfunc(input, cat_kernel, bias, stride, padding, dilatation, groups)
 
 
-def quaternion_linear(input, v_weight, c_weight, bias=True):
+def vectormap_transpose_conv(input, v_weight, c_weight, bias, stride,
+                    padding, output_padding, groups, dilatation):
+    """
+    Applies a vectormap transposed convolution to the incoming data:
+    """
+
+    cat_kernels = [torch.cat([*[v*c for v, c in zip(v_weight, c_weight[0])]], dim=1)]
+    for dim in range(1, len(v_weight)):
+        v_weight = torch.cat((v_weight[-1:], v_weight[:-1]))
+        cat_kernels.append(torch.cat([*[v*c for v, c in zip(v_weight, c_weight[dim])]], dim=1))
+
+    cat_kernel = torch.cat([*cat_kernels], dim=0)
+
+
+    if   input.dim() == 3:
+        convfunc = F.conv_transpose1d
+    elif input.dim() == 4:
+        convfunc = F.conv_transpose2d
+    elif input.dim() == 5:
+        convfunc = F.conv_transpose3d
+    else:
+        raise Exception("The convolutional input is either 3, 4 or 5 dimensions."
+                        " input.dim = " + str(input.dim()))
+
+    return convfunc(input, cat_kernel, bias, stride, padding, output_padding, groups, dilatation)
+
+
+def vectormap_linear(input, v_weight, c_weight, bias=True):
     """
     Applies a vectormap linear transformation to the incoming data
     """
@@ -170,9 +197,9 @@ def vectormap_init(vectormap_dim, in_features, out_features, rng, kernel_size=No
         s = np.sqrt(2. / (vectormap_dim*fan_in))
     else:
         raise ValueError('Invalid criterion: ' + criterion)
-    
+
     rng = RandomState(np.random.randint(1, 1234))
-    
+
     if kernel_size is None:
         kernel_shape = (in_features, out_features)
     else:
@@ -183,10 +210,10 @@ def vectormap_init(vectormap_dim, in_features, out_features, rng, kernel_size=No
 
     modulus = chi.rvs(vectormap_dim, loc=0, scale=s, size=kernel_shape)
     number_of_weights = np.prod(kernel_shape) 
-    
-    v_s = np.array([np.random.normal(0, 1.0, number_of_weights) for _ in range(vectormap_dim - 1)])
+
+    v_s = np.array([np.random.uniform(-1.0, 1.0, number_of_weights) for _ in range(vectormap_dim - 1)])
     for i in range(0, number_of_weights):
-        v_s[:, i] = v_s[:, i] / (np.linalg.norm(v_s[:, i]) + 0.0001)
+        v_s[:, i] = v_s[:, i] / np.linalg.norm(v_s[:, i])
 
     v_s = [v.reshape(kernel_shape) for v in v_s]
 

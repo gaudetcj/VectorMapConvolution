@@ -50,16 +50,19 @@ class VectorMapConv(Module):
                       'unitary' : unitary_init,
                       'random' : random_init}[self.weight_init]
 
-        
+
         (self.kernel_size, self.w_shape) = get_kernel_and_weight_shape( self.operation, 
             self.in_channels, self.out_channels, kernel_size )
 
         self.v_weight = Parameter(torch.Tensor(*(self.vectormap_dim,) + self.w_shape))
 
-        bernoulli_probs = torch.ones(*(self.vectormap_dim, self.vectormap_dim)) * 0.5
-        bernoilli = torch.bernoulli(bernoulli_probs)
-        ones = torch.ones(*(self.vectormap_dim, self.vectormap_dim))
-        self.c_weight = Parameter(ones * bernoilli + (bernoilli - 1.0))
+        self.c_weight = torch.ones(self.vectormap_dim, self.vectormap_dim)
+        for i in range(1, self.vectormap_dim):
+            pos_ind = i + i if i + i < self.vectormap_dim else i + i - self.vectormap_dim
+            neg_inds = list(range(self.vectormap_dim))
+            neg_inds.remove(i)
+            neg_inds.remove(pos_ind)
+            self.c_weight[i, neg_inds] = -1.0
 
         if bias:
             self.bias = Parameter(torch.Tensor(out_channels))
@@ -75,6 +78,91 @@ class VectorMapConv(Module):
     def forward(self, input):
         return vectormap_conv(input, self.v_weight, self.c_weight, self.bias, 
             self.stride, self.padding, self.groups, self.dilatation)
+
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(' \
+            + 'in_channels='      + str(self.in_channels) \
+            + ', out_channels='   + str(self.out_channels) \
+            + ', bias='           + str(self.bias is not None) \
+            + ', kernel_size='    + str(self.kernel_size) \
+            + ', stride='         + str(self.stride) \
+            + ', padding='        + str(self.padding) \
+            + ', dilation='       + str(self.dilation) \
+            + ', init_criterion=' + str(self.init_criterion) \
+            + ', weight_init='    + str(self.weight_init) \
+            + ', seed='           + str(self.seed) \
+            + ', operation='      + str(self.operation) + ')'
+
+
+class VectorMapTransposeConv(Module):
+    r"""Applies a VectorMap Transposed Convolution (or Deconvolution) to the incoming data.
+    """
+
+    def __init__(self, vectormap_dim, in_channels, out_channels, kernel_size, stride,
+                 dilatation=1, padding=0, output_padding=0, groups=1, bias=True, init_criterion='he',
+                 weight_init='vector', seed=None, operation='convolution2d'):
+
+        super(VectorMapTransposeConv, self).__init__()
+
+        if in_channels % vectormap_dim != 0:
+            raise RuntimeError(
+                "VectorMap Tensors must be integer divisible by the vector dimension given."
+                "In channels = {} is not divisible by vector dimension = {}".format(in_channels, vectormap_dim)
+            )
+
+        if out_channels % vectormap_dim != 0:
+            raise RuntimeError(
+                "VectorMap Tensors must be integer divisible by the vector dimension given."
+                "Out channels = {} is not divisible by vector dimension = {}".format(out_channels, vectormap_dim)
+            )
+
+        self.vectormap_dim = vectormap_dim
+        self.in_channels = in_channels  // vectormap_dim
+        self.out_channels = out_channels // vectormap_dim
+        self.stride = stride
+        self.padding = padding
+        self.output_padding = output_padding
+        self.groups = groups
+        self.dilatation = dilatation
+        self.init_criterion = init_criterion
+        self.weight_init = weight_init
+        self.seed = seed if seed is not None else np.random.randint(0,1234)
+        self.rng = RandomState(self.seed)
+        self.operation = operation
+        self.winit = {'vector': vectormap_init,
+                      'unitary' : unitary_init,
+                      'random' : random_init}[self.weight_init]
+
+
+        (self.kernel_size, self.w_shape) = get_kernel_and_weight_shape( self.operation, 
+            self.out_channels, self.in_channels, kernel_size )
+
+        self.v_weight = Parameter(torch.Tensor(*(self.vectormap_dim,) + self.w_shape))
+
+        self.c_weight = torch.ones(self.vectormap_dim, self.vectormap_dim)
+        for i in range(1, self.vectormap_dim):
+            pos_ind = i + i if i + i < self.vectormap_dim else i + i - self.vectormap_dim
+            neg_inds = list(range(self.vectormap_dim))
+            neg_inds.remove(i)
+            neg_inds.remove(pos_ind)
+            self.c_weight[i, neg_inds] = -1.0
+
+        if bias:
+            self.bias = Parameter(torch.Tensor(out_channels))
+        else:
+            self.register_parameter('bias', None)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        affect_init_conv(self.v_weight, self.kernel_size, self.winit, self.rng, self.init_criterion)
+        if self.bias is not None:
+           self.bias.data.zero_()
+
+    def forward(self, input):
+        return vectormap_transpose_conv(input, self.v_weight, self.c_weight, self.bias, 
+            self.stride, self.padding, self.output_padding,
+            self.groups, self.dilatation)
 
 
     def __repr__(self):

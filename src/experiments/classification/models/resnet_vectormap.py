@@ -66,15 +66,15 @@ class Bottleneck(nn.Module):
 class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
-        self.in_planes = 108
+        self.in_planes = 90
 
-        self.conv1 = VectorMapConv(3, 3, 108, kernel_size=3, stride=1, padding=1, bias=False)
-        self.bn1 = nn.BatchNorm2d(108)
-        self.layer1 = self._make_layer(block, 108, num_blocks[0], stride=1)
-        self.layer2 = self._make_layer(block, 216, num_blocks[1], stride=2)
-        self.layer3 = self._make_layer(block, 432, num_blocks[2], stride=2)
-        self.layer4 = self._make_layer(block, 864, num_blocks[3], stride=2)
-        self.linear = nn.Linear(864*block.expansion, num_classes)
+        self.conv1 = VectorMapConv(3, 3, 90, kernel_size=3, stride=1, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(90)
+        self.layer1 = self._make_layer(block, 90, num_blocks[0], stride=1)
+        self.layer2 = self._make_layer(block, 180, num_blocks[1], stride=2)
+        self.layer3 = self._make_layer(block, 360, num_blocks[2], stride=2)
+        self.layer4 = self._make_layer(block, 720, num_blocks[3], stride=2)
+        self.linear = nn.Linear(720*block.expansion, num_classes)
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
